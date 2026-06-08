@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>المساعدة - صلة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple-50: #EEEDFE;
+      --purple-200: #AFA9EC;
+      --purple-400: #7F77DD;
+      --purple-600: #534AB7;
+      --purple-800: #3C3489;
+      --purple-900: #26215C;
+      --blue-50: #E6F1FB;
+      --blue-600: #185FA5;
+    }
+
+    body {
+      font-family: "Cairo", sans-serif;
+      background: linear-gradient(135deg, #d9eaff 0%, #f4eaff 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      direction: rtl;
+    }
+
+    /* ──── Navigation Bar ──── */
+    .navbar {
+      background: linear-gradient(90deg, #3C3489 0%, #534AB7 100%);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(83, 74, 183, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      font-size: 2rem;
+      font-weight: 800;
+      color: white;
+      font-family: "Aref Ruqaa", serif;
+      letter-spacing: 2px;
+    }
+
+    .navbar-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.3);
+      border-bottom: 3px solid white;
+    }
+
+    .nav-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #FF6B6B;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 0.5rem;
+    }
+
+    /* ──── Page Container ──── */
+    .help-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .help-page {
+      flex: 1;
+      padding: 2rem 1.5rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* ──── Header Section ──── */
+    .help-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .help-title {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #3C3489;
+      margin-bottom: 1rem;
+      font-family: "Aref Ruqaa", serif;
+    }
+
+    .help-subtitle {
+      font-size: 1.2rem;
+      color: #534AB7;
+    }
+
+    /* ──── Search Box ──── */
+    .search-container {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 600px;
+      padding: 1rem 1.5rem;
+      border: 2px solid #7F77DD;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-family: "Cairo", sans-serif;
+      transition: all 0.3s ease;
+      background: white;
+      color: #333;
+    }
+
+    .search-box:focus {
+      outline: none;
+      border-color: #534AB7;
+      box-shadow: 0 0 0 4px rgba(83, 74, 183, 0.1);
+    }
+
+    /* ──── FAQ Section ──── */
+    .faq-section {
+      margin-bottom: 3rem;
+    }
+
+    .faq-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #3C3489;
+      margin-bottom: 2rem;
+      text-align: right;
+    }
+
+    .faq-item {
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(83, 74, 183, 0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+      box-shadow: 0 8px 20px rgba(83, 74, 183, 0.15);
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      background: linear-gradient(90deg, #f7f7fb 0%, #f0f0f8 100%);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: #3C3489;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    .faq-question:hover {
+      background: linear-gradient(90deg, #efeef8 0%, #e8e8f0 100%);
+    }
+
+    .faq-toggle {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+      color: #7F77DD;
+    }
+
+    .faq-item.active .faq-toggle {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .faq-item.active .faq-answer {
+      padding: 1.5rem;
+      max-height: 500px;
+    }
+
+    /* ──── Categories ──── */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .category-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(83, 74, 183, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .category-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(83, 74, 183, 0.15);
+      border-top: 4px solid #7F77DD;
+    }
+
+    .category-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .category-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #3C3489;
+      margin-bottom: 0.5rem;
+    }
+
+    .category-description {
+      color: #999;
+      font-size: 0.95rem;
+    }
+
+    /* ──── Contact Section ──── */
+    .contact-section {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 6px 20px rgba(83, 74, 183, 0.1);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .contact-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #3C3489;
+      margin-bottom: 1rem;
+    }
+
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-item {
+      padding: 1rem;
+    }
+
+    .contact-item-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .contact-item-title {
+      font-weight: 600;
+      color: #534AB7;
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-item-text {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    /* ──── Footer ──── */
+    footer {
+      background: linear-gradient(90deg, #3C3489 0%, #534AB7 100%);
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: auto;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    /* ──── Responsive ──── */
+    @media (max-width: 768px) {
+      .help-title {
+        font-size: 2rem;
+      }
+
+      .navbar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .navbar-nav {
+        gap: 1rem;
+      }
+
+      .faq-question {
+        font-size: 0.95rem;
+      }
+
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-info {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="help-wrapper">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="navbar-brand">صلة</div>
+      <ul class="navbar-nav">
+        <li><a href="index.html" class="nav-link">الرئيسية</a></li>
+        <li>
+          <a href="help.html" class="nav-link active">
+            <span class="nav-badge">?</span>
+            المساعدة
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Help Page Content -->
+    <div class="help-page">
+      <!-- Header -->
+      <div class="help-header">
+        <h1 class="help-title">مركز المساعدة</h1>
+        <p class="help-subtitle">هنا ستجد الإجابات على جميع أسئلتك</p>
+      </div>
+
+      <!-- Search -->
+      <div class="search-container">
+        <input 
+          type="text" 
+          class="search-box" 
+          placeholder="ابحث عن إجابة..." 
+          id="searchBox"
+        >
+      </div>
+
+      <!-- Categories -->
+      <div class="categories-grid">
+        <div class="category-card">
+          <div class="category-icon">📚</div>
+          <h3 class="category-title">الدورات التعليمية</h3>
+          <p class="category-description">تعرف على كيفية الاستفادة من الدورات</p>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">👤</div>
+          <h3 class="category-title">حسابك الشخصي</h3>
+          <p class="category-description">أدارة بيانات الحساب والأمان</p>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">💬</div>
+          <h3 class="category-title">التواصل والمشاركة</h3>
+          <p class="category-description">تفاعل مع المجتمع التعليمي</p>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">🎯</div>
+          <h3 class="category-title">التقدم والإحصائيات</h3>
+          <p class="category-description">متابعة تقدمك الأكاديمي</p>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">⚙️</div>
+          <h3 class="category-title">الإعدادات</h3>
+          <p class="category-description">تخصيص تجربتك في المنصة</p>
+        </div>
+
+        <div class="category-card">
+          <div class="category-icon">🔒</div>
+          <h3 class="category-title">الأمان والخصوصية</h3>
+          <p class="category-description">حماية حسابك والبيانات الشخصية</p>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="faq-section">
+        <h2 class="faq-title">الأسئلة الشائعة</h2>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            كيف أبدأ الدراسة في صلة؟
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            يمكنك البدء بسهولة من خلال استعراض الدورات المتاحة واختيار ما يناسبك. ثم انقر على الدورة واتبع التعليمات لبدء التعلم. جميع الدورات مصممة بعناية لتناسب مستويات مختلفة.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            هل يمكنني الحصول على شهادة بعد إكمال الدورة؟
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            نعم، عند إكمال جميع دروس الدورة بنجاح والامتحان النهائي، ستحصل على شهادة معترف بها من المنصة. يمكنك تحميل الشهادة ومشاركتها على الفور.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            كيف أتواصل مع المدرسين؟
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            يمكنك التواصل مع المدرسين من خلال نظام الرسائل المباشرة في المنصة، أو من خلال منتديات النقاش المخصصة لكل دورة. سيرد عليك المدرس في أقرب وقت ممكن.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            ماذا لو واجهت مشكلة فنية؟
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            في حالة واجهة أي مشكلة فنية، يرجى الاتصال بفريق الدعم الفني من خلال صفحة الاتصال. نحن هنا لمساعدتك وحل جميع المشاكل في أسرع وقت.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            هل الدورات مدفوعة أم مجانية؟
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            نقدم مجموعة من الدورات المجانية والمدفوعة. الدورات المجانية توفر محتوى أساسي جيد، والدورات المدفوعة توفر محتوى متقدم وحصري. اختر ما يناسب احتياجاتك.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+            هل يمكنني تحميل الدروس لمشاهدتها بلا إنترنت؟
+            <span class="faq-toggle">▼</span>
+          </div>
+          <div class="faq-answer">
+            نعم، يمكنك تحميل بعض الدروس لمشاهدتها بلا اتصال بالإنترنت. انقر على أيقونة التحميل بجانب الدرس واختر جودة الفيديو المناسبة. هذا يتوفر للمشتركين في الدورات المدفوعة.
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="contact-section">
+        <h2 class="contact-title">لم تجد إجابتك؟ تواصل معنا</h2>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-item-icon">📧</div>
+            <div class="contact-item-title">البريد الإلكتروني</div>
+            <div class="contact-item-text">support@sila.com</div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon">💬</div>
+            <div class="contact-item-title">الدعم الفوري</div>
+            <div class="contact-item-text">متاح 24/7</div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-item-icon">📱</div>
+            <div class="contact-item-title">رقم الهاتف</div>
+            <div class="contact-item-text">+20 123 456 7890</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2024 صلة - منصة تعليمية تفاعلية. جميع الحقوق محفوظة.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Toggle FAQ items
+    function toggleFAQ(element) {
+      const faqItem = element.parentElement;
+      faqItem.classList.toggle('active');
+    }
+
+    // Search functionality
+    const searchBox = document.getElementById('searchBox');
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    searchBox.addEventListener('keyup', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+        
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
