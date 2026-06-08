@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>صلة - منصة تعليمية تفاعلية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Aref+Ruqaa:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple-50: #EEEDFE;
+      --purple-200: #AFA9EC;
+      --purple-400: #7F77DD;
+      --purple-600: #534AB7;
+      --purple-800: #3C3489;
+      --purple-900: #26215C;
+      --blue-50: #E6F1FB;
+      --blue-600: #185FA5;
+    }
+
+    body {
+      font-family: "Cairo", sans-serif;
+      background: linear-gradient(135deg, #d9eaff 0%, #f4eaff 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #333;
+    }
+
+    /* ── INTRO VIDEO OVERLAY ── */
+    #intro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: linear-gradient(135deg, #1a0a3e 0%, #0d1b4b 50%, #1a0a3e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #intro-overlay .stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--d, 2s) infinite ease-in-out;
+      opacity: var(--o, 0.6);
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity: var(--o, 0.6); transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.5); }
+    }
+
+    .intro-logo-ring {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin-bottom: 32px;
+    }
+
+    .intro-logo-ring svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      animation: spin 4s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .intro-logo-center {
+      position: absolute;
+      inset: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Aref Ruqaa", serif;
+      font-size: 42px;
+      font-weight: 700;
+      color: #fff;
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%,100% { text-shadow: 0 0 20px rgba(175,169,236,0.6); }
+      50% { text-shadow: 0 0 40px rgba(175,169,236,1), 0 0 70px rgba(127,119,221,0.8); }
+    }
+
+    .intro-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      animation: fadeSlideUp 0.8s 0.5s both;
+    }
+
+    .intro-subtitle {
+      font-size: 13px;
+      color: rgba(175,169,236,0.9);
+      animation: fadeSlideUp 0.8s 0.8s both;
+      margin-bottom: 40px;
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .intro-welcome-text {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      animation: fadeSlideUp 0.8s 1.2s both;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .intro-welcome-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      animation: fadeSlideUp 0.8s 1.5s both;
+      text-align: center;
+    }
+
+    .intro-bar-wrap {
+      margin-top: 40px;
+      width: 200px;
+      height: 3px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 999px;
+      overflow: hidden;
+      animation: fadeSlideUp 0.5s 1.8s both;
+    }
+
+    .intro-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #AFA9EC, #7F77DD);
+      animation: load-bar 2.8s 2s ease-in-out forwards;
+    }
+
+    @keyframes load-bar { to { width: 100%; } }
+
+    .intro-video {
+      margin-top: 40px;
+      max-width: 420px;
+      width: 90%;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      animation: fadeSlideUp 0.8s 2s both;
+    }
+
+    #intro-overlay.fade-out {
+      animation: overlayFadeOut 0.9s ease forwards;
+    }
+
+    @keyframes overlayFadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      60% { opacity: 1; transform: scale(1.04); }
+      100% { opacity: 0; transform: scale(1.04); pointer-events: none; }
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 68px;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(175,169,236,0.3);
+    }
+
+    .navbar-brand {
+      font-family: "Aref Ruqaa", serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #534AB7;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .navbar-actions { display: flex; gap: 10px; align-items: center; }
+
+    .nav-btn {
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-family: "Cairo", sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .nav-btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(83,74,183,0.4);
+      color: #534AB7;
+    }
+
+    .nav-btn-outline:hover { background: var(--purple-50); border-color: #534AB7; }
+
+    .nav-btn-fill {
+      background: #534AB7;
+      color: #fff;
+    }
+
+    .nav-btn-fill:hover { background: #3C3489; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(83,74,183,0.35); }
+
+    .nav-help-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(175,169,236,0.15);
+      border: 1px solid rgba(175,169,236,0.4);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 13px;
+      color: #534AB7;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+    }
+
+    .nav-help-badge:hover {
+      background: rgba(175,169,236,0.25);
+      border-color: #534AB7;
+    }
+
+    /* ── HERO SECTION ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 100px 24px 60px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+    }
+
+    .hero-text { max-width: 480px; text-align: right; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(175,169,236,0.5);
+      border-radius: 999px;
+      padding: 6px 18px;
+      font-size: 13px;
+      color: #534AB7;
+      font-weight: 600;
+      margin-bottom: 20px;
+      animation: fadeSlideUp 0.7s 0.2s both;
+    }
+
+    .hero-badge .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #534AB7;
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .hero-h1 {
+      font-size: 52px;
+      font-weight: 800;
+      color: #1a1a2e;
+      line-height: 1.2;
+      margin-bottom: 18px;
+      animation: fadeSlideUp 0.7s 0.4s both;
+    }
+
+    .hero-h1 .brand-name {
+      font-family: "Aref Ruqaa", serif;
+      color: #534AB7;
+    }
+
+    .hero-p {
+      font-size: 17px;
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 32px;
+      animation: fadeSlideUp 0.7s 0.6s both;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeSlideUp 0.7s 0.8s both;
+    }
+
+    .hero-btn {
+      padding: 14px 32px;
+      border-radius: 28px;
+      font-size: 17px;
+      font-family: "Cairo", sans-serif;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.28s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .hero-btn-primary {
+      background: #534AB7;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(83,74,183,0.3);
+    }
+
+    .hero-btn-primary:hover { background: #3C3489; transform: translateY(-4px); box-shadow: 0 10px 28px rgba(83,74,183,0.4); color: #fff; }
+
+    .hero-btn-secondary {
+      background: rgba(255,255,255,0.7);
+      border: 1.5px solid rgba(175,169,236,0.5);
+      color: #534AB7;
+    }
+
+    .hero-btn-secondary:hover { background: #fff; transform: translateY(-4px); box-shadow: 0 6px 20px rgba(83,74,183,0.12); color: #534AB7; }
+
+    .hero-img-wrap {
+      max-width: 420px;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      animation: fadeSlideUp 0.9s 0.5s both;
+    }
+
+    .hero-img-inner {
+      position: relative;
+      width: 340px;
+      height: 340px;
+    }
+
+    .hero-img-blob {
+      position: absolute;
+      inset: 0;
+      border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(175,169,236,0.4);
+      animation: morph 6s ease-in-out infinite, float 3s ease-in-out infinite;
+    }
+
+    @keyframes morph {
+      0%,100% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+      33% { border-radius: 50% 50% 60% 40% / 55% 45% 55% 45%; }
+      66% { border-radius: 40% 60% 45% 55% / 60% 40% 60% 40%; }
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .hero-img-emoji {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 120px;
+    }
+
+    /* ── FEATURES SECTION ── */
+    .section {
+      padding: 80px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #534AB7;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      font-weight: 800;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+    }
+
+    .section-desc {
+      text-align: center;
+      font-size: 15px;
+      color: #6b7280;
+      max-width: 520px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .feat-card {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 18px;
+      padding: 1.4rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .feat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(83,74,183,0.12); }
+
+    .feat-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .feat-card h3 { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+    .feat-card p { font-size: 12.5px; color: #6b7280; line-height: 1.6; }
+
+    /* ── TECH SECTION ── */
+    .tech-section {
+      padding: 60px 24px;
+      background: rgba(255,255,255,0.4);
+      backdrop-filter: blur(8px);
+      border-top: 1px solid rgba(175,169,236,0.2);
+      border-bottom: 1px solid rgba(175,169,236,0.2);
+    }
+
+    .tech-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+
+    .tech-pill {
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(175,169,236,0.4);
+      color: #534AB7;
+      transition: all 0.2s;
+    }
+
+    .tech-pill:hover { background: var(--purple-50); border-color: #AFA9EC; transform: translateY(-2px); }
+
+    /* ── USERS SECTION ── */
+    .users-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .user-card {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 18px;
+      padding: 1.6rem;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .user-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(83,74,183,0.12); }
+
+    .user-avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 14px;
+    }
+
+    .user-card h3 { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 6px; }
+    .user-card p { font-size: 13px; color: #6b7280; line-height: 1.6; }
+
+    /* ── TEAM SECTION ── */
+    .team-card {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 18px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .team-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .team-card h3 { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 8px; }
+    .team-card p { font-size: 14px; color: #6b7280; line-height: 1.7; }
+
+    .team-info {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--purple-50);
+      border: 1px solid rgba(175,169,236,0.6);
+      border-radius: 12px;
+      font-size: 13px;
+      color: #534AB7;
+      line-height: 1.8;
+      text-align: right;
+    }
+
+    .team-info strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #3C3489;
+    }
+
+    .team-member {
+      display: inline-block;
+      margin: 3px 4px;
+    }
+
+    /* ── DEMO SECTION ── */
+    .demo-card {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      border-radius: 18px;
+      padding: 2.5rem;
+      text-align: center;
+    }
+
+    .demo-video-placeholder {
+      margin: 24px auto;
+      max-width: 480px;
+      height: 270px;
+      background: rgba(83,74,183,0.06);
+      border: 2px dashed rgba(175,169,236,0.5);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #534AB7;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .demo-play { font-size: 48px; }
+
+    /* ── OUTRO VIDEO OVERLAY ── */
+    #outro-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: linear-gradient(135deg, #1a0a3e 0%, #0d1b4b 50%, #1a0a3e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      overflow: hidden;
+    }
+
+    #outro-overlay .outro-stars {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    #outro-overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .outro-hearts {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .outro-heart {
+      position: absolute;
+      bottom: -60px;
+      font-size: var(--s, 24px);
+      animation: riseHeart var(--d2, 3s) var(--delay, 0s) ease-in forwards;
+      opacity: 0.8;
+    }
+
+    @keyframes riseHeart {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      80% { opacity: 0.7; }
+      100% { transform: translateY(-110vh) scale(1.3); opacity: 0; }
+    }
+
+    .outro-content { 
+      position: relative; 
+      z-index: 2; 
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .outro-video {
+      max-width: 100%;
+      width: 100%;
+      max-height: 60vh;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      margin-bottom: 24px;
+      animation: fadeSlideUp 0.8s 0.5s both;
+      display: block;
+    }
+
+    .outro-logo {
+      font-family: "Aref Ruqaa", serif;
+      font-size: 48px;
+      font-weight: 700;
+      color: #fff;
+      animation: pulse-glow 2s ease-in-out infinite;
+      margin-bottom: 16px;
+    }
+
+    .outro-big-text {
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      animation: fadeSlideUp 0.8s 0.3s both;
+    }
+
+    .outro-sub {
+      font-size: 15px;
+      color: rgba(175,169,236,0.9);
+      margin-bottom: 32px;
+      animation: fadeSlideUp 0.8s 0.6s both;
+    }
+
+    .outro-sparkle-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 32px;
+      animation: fadeSlideUp 0.8s 0.9s both;
+      flex-wrap: wrap;
+    }
+
+    .sparkle-badge {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(175,169,236,0.3);
+      border-radius: 999px;
+      padding: 7px 18px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+      font-weight: 600;
+    }
+
+    .outro-btn-wrap {
+      margin-top: 24px;
+      animation: fadeSlideUp 0.8s 1.2s both;
+    }
+
+    .outro-replay-btn {
+      padding: 12px 32px;
+      border-radius: 28px;
+      background: rgba(175,169,236,0.2);
+      border: 1.5px solid rgba(175,169,236,0.5);
+      color: rgba(255,255,255,0.9);
+      font-size: 15px;
+      font-weight: 700;
+      font-family: "Cairo", sans-serif;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .outro-replay-btn:hover {
+      background: rgba(175,169,236,0.4);
+      border-color: rgba(175,169,236,0.8);
+      transform: translateY(-2px);
+    }
+
+    .outro-wave {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      overflow: hidden;
+    }
+
+    .outro-wave svg { width: 100%; height: 100%; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: rgba(26,10,62,0.9);
+      backdrop-filter: blur(8px);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    footer .brand {
+      font-family: "Aref Ruqaa", serif;
+      font-size: 24px;
+      color: #fff;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-h1 { font-size: 36px; }
+      .hero-p { font-size: 15px; }
+      .hero-btn { padding: 12px 24px; font-size: 15px; }
+      .hero-img-inner { width: 250px; height: 250px; }
+      .hero-img-emoji { font-size: 90px; }
+      .section-title { font-size: 24px; }
+      .navbar { padding: 0 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-btns { flex-direction: column; align-items: stretch; }
+      .hero-btn { text-align: center; }
+      .navbar-actions { gap: 6px; flex-wrap: wrap; }
+      .nav-btn { padding: 7px 14px; font-size: 13px; }
+      .nav-help-badge { padding: 5px 10px; font-size: 12px; }
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     BACKGROUND MUSIC
+═══════════════════════════════════════════ -->
+<audio id="bg-music" loop style="display:none;">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ══════════════════════════════════════════
+     INTRO OVERLAY
+═══════════════════════════════════════════ -->
+<div id="intro-overlay">
+  <div class="stars" id="stars-container"></div>
+
+  <div class="intro-logo-ring">
+    <svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="70" cy="70" r="64" stroke="rgba(175,169,236,0.3)" stroke-width="1.5" stroke-dasharray="4 6"/>
+      <circle cx="70" cy="6" r="5" fill="#AFA9EC"/>
+      <circle cx="134" cy="70" r="4" fill="rgba(175,169,236,0.5)"/>
+      <circle cx="70" cy="134" r="3" fill="rgba(175,169,236,0.3)"/>
+    </svg>
+    <div class="intro-logo-center">ص</div>
+  </div>
+
+  <div class="intro-title">منصة صِلة</div>
+  <div class="intro-subtitle">للتعلم التفاعلي للأطفال</div>
+
+  <div class="intro-welcome-text">أهلاً وسهلاً بك 👋</div>
+  <div class="intro-welcome-sub">نحن سعداء بوجودك معنا</div>
+
+  <video class="intro-video" autoplay muted playsinline>
+    <source src="welcome.mp4" type="video/mp4">
+  </video>
+
+  <div class="intro-bar-wrap">
+    <div class="intro-bar-fill"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     OUTRO OVERLAY
+═══════════════════════════════════════════ -->
+<div id="outro-overlay">
+  <div class="outro-stars" id="outro-stars-container"></div>
+  <div class="outro-hearts" id="hearts-container"></div>
+
+  <div class="outro-content">
+    <video class="outro-video" autoplay muted playsinline>
+      <source src="thankyou.mp4" type="video/mp4">
+    </video>
+    <div class="outro-logo">صِلة</div>
+    <div class="outro-big-text">شكراً لمشاهدتك! 🎉</div>
+    <div class="outro-sub">نتمنى أن تكون رحلتك مع صِلة ممتعة ومثمرة</div>
+
+    <div class="outro-sparkle-row">
+      <span class="sparkle-badge">✨ تعلم</span>
+      <span class="sparkle-badge">🤝 تواصل</span>
+      <span class="sparkle-badge">💜 نمو</span>
+    </div>
+
+    <div class="outro-btn-wrap">
+      <button class="outro-replay-btn" onclick="replayWebsite()">🔄 شاهد الموقع مرة أخرى</button>
+    </div>
+
+    <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-top: 24px;">
+      فريق مشروع صِلة — 2026
+    </div>
+  </div>
+
+  <div class="outro-wave">
+    <svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 Q300,10 600,60 T1200,60 L1200,120 L0,120 Z" fill="rgba(26,10,62,0.5)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="navbar-actions">
+    <a href="help.html" class="nav-btn nav-btn-outline" style="text-decoration: none">❓ مساعدة</a>
+    <a href="index.html" class="nav-btn nav-btn-fill" style="text-decoration: none">الرئيسية</a>
+  </div>
+  <a href="#" class="navbar-brand" onclick="replayWebsite(); return false;">صِلة</a>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        مشروع تخرج · 2026
+      </div>
+      <h1 class="hero-h1">
+        أهلاً بيك في<br/>
+        <span class="brand-name">صِلة</span>
+      </h1>
+      <p class="hero-p">
+        منصّة تعليمية تفاعلية للأطفال تساعدهم يتعلموا بطريقة بسيطة وممتعة في بيئة آمنة ومريحة للجميع
+      </p>
+      <div class="hero-btns">
+        <a href="#features" class="hero-btn hero-btn-primary">اكتشف المنصة</a>
+        <a href="#demo" class="hero-btn hero-btn-secondary">شاهد الفيديو</a>
+      </div>
+    </div>
+
+    <div class="hero-img-wrap">
+      <div class="hero-img-inner">
+        <div class="hero-img-blob"></div>
+        <div class="hero-img-emoji">🤟</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FEATURES
+═══════════════════════════════════════════ -->
+<section id="features" class="section reveal">
+  <p class="section-label">المميزات الرئيسية</p>
+  <h2 class="section-title">كل اللي تحتاجه في مكان واحد</h2>
+  <p class="section-desc">منصة صِلة تقدم مجموعة متكاملة من الأدوات الذكية لدعم رحلة التعلم</p>
+
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#EEEDFE; color:#534AB7;">🤟</div>
+      <h3>التعرف على لغة الإشارة</h3>
+      <p>تحليل وترجمة لغة الإشارة العربية بالذكاء الاصطناعي في الوقت الحقيقي</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#E1F5EE; color:#0F6E56;">🎙️</div>
+      <h3>تحويل النص والكلام</h3>
+      <p>تحويل فوري بين النص والكلام المنطوق لتسهيل التواصل</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FAECE7; color:#993C1D;">🌈</div>
+      <h3>وضع التوحد</h3>
+      <p>بيئة تعليمية مصممة خصيصاً لأطفال طيف التوحد بألوان وأنماط مريحة</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FAEEDA; color:#854F0B;">📊</div>
+      <h3>تقييم المؤشرات المبكرة</h3>
+      <p>أدوات ذكية للكشف المبكر عن مؤشرات طيف التوحد</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#E6F1FB; color:#185FA5;">👨‍👩‍👧</div>
+      <h3>لوحة أولياء الأمور</h3>
+      <p>متابعة تقدم الطفل ونتائجه بشكل مستمر وتفصيلي</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FBEAF0; color:#993556;">🎮</div>
+      <h3>ألعاب تعليمية</h3>
+      <p>دروس تفاعلية وألعاب وكويزات ممتعة لتعزيز التعلم</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#EAF3DE; color:#3B6D11;">🏆</div>
+      <h3>نظام المكافآت</h3>
+      <p>تحفيز مستمر من خلال نقاط وشارات وجوائز للإنجازات</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TECH
+═══════════════════════════════════════════ -->
+<div class="tech-section reveal">
+  <div class="tech-inner">
+    <p class="section-label">التقنيات المستخدمة</p>
+    <h2 class="section-title">مبني بأحدث التقنيات</h2>
+    <div class="tech-pills">
+      <span class="tech-pill">🧠 Artificial Intelligence</span>
+      <span class="tech-pill">👁️ Computer Vision</span>
+      <span class="tech-pill">⚡ MediaPipe</span>
+      <span class="tech-pill">🔬 Deep Learning (CTR-GCN)</span>
+      <span class="tech-pill">💬 NLP & Text-to-Speech</span>
+      <span class="tech-pill">⚛️ React.js</span>
+      <span class="tech-pill">🟢 Node.js</span>
+      <span class="tech-pill">🍃 MongoDB</span>
+      <span class="tech-pill">🔥 PyTorch</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     USERS
+═══════════════════════════════════════════ -->
+<section class="section reveal">
+  <p class="section-label">المستخدمون</p>
+  <h2 class="section-title">صُممت للجميع</h2>
+  <p class="section-desc">منصة شاملة تخدم كل أفراد المنظومة التعليمية</p>
+  <div class="users-grid">
+    <div class="user-card">
+      <div class="user-avatar" style="background:#EEEDFE; color:#534AB7;">🧒</div>
+      <h3>الأطفال</h3>
+      <p>تجربة تعليمية ممتعة وآمنة مصممة خصيصاً لاحتياجات الأطفال</p>
+    </div>
+    <div class="user-card">
+      <div class="user-avatar" style="background:#E1F5EE; color:#0F6E56;">👨‍👩‍👧</div>
+      <h3>أولياء الأمور والمقدّمون</h3>
+      <p>متابعة مستمرة لتقدم الطفل وأدوات دعم فعّالة</p>
+    </div>
+    <div class="user-card">
+      <div class="user-avatar" style="background:#E6F1FB; color:#185FA5;">🛡️</div>
+      <h3>المشرفون</h3>
+      <p>إدارة شاملة للمنصة ومتابعة جميع المستخدمين</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     DEMO VIDEO
+═══════════════════════════════════════════ -->
+<section id="demo" class="section reveal">
+  <div class="demo-card">
+    <p class="section-label">الفيديو التعريفي</p>
+    <h2 class="section-title" style="margin-bottom:8px;">شاهد كيف تعمل صِلة</h2>
+    <p class="section-desc" style="margin-bottom:0;">فيديو تجريبي يوضح جميع مميزات المنصة</p>
+    <div class="demo-video-placeholder">
+      <div class="demo-play">▶️</div>
+      <span>ضعي رابط الفيديو هنا</span>
+      <span style="font-size:11px;color:#9ca3af;font-weight:400;">(استبدلي هذا القسم بـ iframe أو فيديو YouTube)</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SCREENSHOTS (placeholder)
+═══════════════════════════════════════════ -->
+<section class="section reveal">
+  <div class="demo-card">
+    <p class="section-label">لقطات الشاشة</p>
+    <h2 class="section-title" style="margin-bottom:8px;">من داخل التطبيق</h2>
+    <div class="demo-video-placeholder" style="height:200px;">
+      <span style="font-size:32px;">📸</span>
+      <span>أضيفي صور التطبيق هنا</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TEAM
+═══════════════════════════════════════════ -->
+<section class="section reveal">
+  <p class="section-label">الفريق</p>
+  <h2 class="section-title">فريق مشروع التخرج</h2>
+  <div class="team-card">
+    <div class="team-icon">👩‍💻</div>
+    <h3>فريق مشروع صِلة</h3>
+    <div class="team-info">
+      <strong>🎓 المشرف الأكاديمي:</strong>
+      د. عمرو ناجي
+      <br/>
+      <strong>👷 المهندسة المشرفة:</strong>
+      م. روايدا عادل
+      <br/>
+      <strong>👥 الفريق:</strong>
+      <div style="margin-top: 10px; line-height: 1.8;">
+        <span class="team-member">احلام احمد محمد محمود</span> •
+        <span class="team-member">بسمله محمود محمود عبدالرحمن</span>
+        <br/>
+        <span class="team-member">جنة الله احمد حسنين اسماعيل</span> •
+        <span class="team-member">جهاد اسلام محمد السيد</span>
+        <br/>
+        <span class="team-member">جيسيكا مينا فؤاد ميلاد</span> •
+        <span class="team-member">رقيه طارق محمد عبدالحميد</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+  <span class="brand">صِلة</span>
+  منصة تعليمية تفاعلية للأطفال ذوي الإعاقة السمعية وطيف التوحد<br/>
+  مشروع تخرج · 2026 · جميع الحقوق محفوظة
+</footer>
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════ -->
+<script>
+  // Check if it's the first visit using sessionStorage
+  const isFirstVisit = !sessionStorage.getItem('visited');
+
+  if (isFirstVisit) {
+    sessionStorage.setItem('visited', 'true');
+    
+    // Start background music
+    const bgMusic = document.getElementById('bg-music');
+    bgMusic.volume = 0.3;
+    bgMusic.play().catch(() => {});
+
+    // Generate stars for intro
+    const sc = document.getElementById('stars-container');
+    for (let i = 0; i < 80; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${1.5+Math.random()*3}s;--o:${0.3+Math.random()*0.7};width:${1+Math.random()*3}px;height:${1+Math.random()*3}px;animation-delay:${Math.random()*3}s`;
+      sc.appendChild(s);
+    }
+
+    // Auto-dismiss intro after 5s
+    setTimeout(() => {
+      const intro = document.getElementById('intro-overlay');
+      intro.classList.add('fade-out');
+      setTimeout(() => intro.style.display = 'none', 950);
+    }, 5000);
+  } else {
+    // Hide intro overlay for returning users
+    document.getElementById('intro-overlay').style.display = 'none';
+  }
+
+  // Generate stars for outro
+  const outroStars = document.getElementById('outro-stars-container');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${1.5+Math.random()*3}s;--o:${0.3+Math.random()*0.7};width:${1+Math.random()*3}px;height:${1+Math.random()*3}px;animation-delay:${Math.random()*3}s`;
+    outroStars.appendChild(s);
+  }
+
+  // Generate hearts for outro
+  const hc = document.getElementById('hearts-container');
+  const heartEmojis = ['💜','✨','🌟','💫','🎉','💙','🤟'];
+  for (let i = 0; i < 20; i++) {
+    const h = document.createElement('div');
+    h.className = 'outro-heart';
+    h.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+    const left = 5 + Math.random() * 90;
+    const dur = 2.5 + Math.random() * 3;
+    const delay = Math.random() * 2;
+    const size = 16 + Math.floor(Math.random() * 20);
+    h.style.cssText = `left:${left}%;--d2:${dur}s;--delay:${delay}s;--s:${size}px;animation-delay:${delay}s;`;
+    hc.appendChild(h);
+  }
+
+  // Show outro when user scrolls to bottom — stays until user clicks replay
+  let outroShown = false;
+
+  window.addEventListener('scroll', () => {
+    if (outroShown) return;
+    const scrollBottom = window.scrollY + window.innerHeight;
+    const docHeight = document.documentElement.scrollHeight;
+    if (scrollBottom >= docHeight - 80) {
+      outroShown = true;
+      const outro = document.getElementById('outro-overlay');
+      const outroVideo = outro.querySelector('.outro-video');
+      outro.classList.add('show');
+      // Reset and play video
+      outroVideo.currentTime = 0;
+      outroVideo.play().catch(() => {});
+    }
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { 
+      if (e.isIntersecting) { 
+        e.target.classList.add('visible'); 
+        observer.unobserve(e.target); 
+      } 
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Replay website function
+  function replayWebsite() {
+    const outro = document.getElementById('outro-overlay');
+    outro.classList.remove('show');
+    outro.style.opacity = '';
+    outro.style.transition = '';
+    outroShown = false;
+    window.scrollTo(0, 0);
+    document.querySelectorAll('.reveal.visible').forEach(el => {
+      el.classList.remove('visible');
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }, 100);
+  }
+</script>
+</body>
+</html>
