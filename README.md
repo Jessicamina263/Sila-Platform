@@ -1,2 +1,0 @@
-# Sila-Platform
-# Sila-Platform

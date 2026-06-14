@@ -585,19 +585,14 @@
 
     .demo-video-placeholder {
       margin: 24px auto;
+      width: 100%;
       max-width: 480px;
       height: 270px;
-      background: rgba(83,74,183,0.06);
-      border: 2px dashed rgba(175,169,236,0.5);
       border-radius: 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      color: #534AB7;
-      font-size: 14px;
-      font-weight: 600;
+      display: block;
+      object-fit: cover;
+      background: #000;
+      box-shadow: 0 8px 24px rgba(83,74,183,0.15);
     }
 
     .demo-play { font-size: 48px; }
@@ -794,7 +789,7 @@
      BACKGROUND MUSIC
 ═══════════════════════════════════════════ -->
 <audio id="bg-music" loop style="display:none;">
-  <source src="music.mp3" type="audio/mpeg">
+  <source src="assets/sounds/music.mp3" type="audio/mpeg">
 </audio>
 
 <!-- ══════════════════════════════════════════
@@ -820,7 +815,7 @@
   <div class="intro-welcome-sub">نحن سعداء بوجودك معنا</div>
 
   <video class="intro-video" autoplay muted playsinline>
-    <source src="welcome.mp4" type="video/mp4">
+    <source src="assets/videos/welcome.mp4" type="video/mp4">
   </video>
 
   <div class="intro-bar-wrap">
@@ -837,7 +832,7 @@
 
   <div class="outro-content">
     <video class="outro-video" autoplay muted playsinline>
-      <source src="thankyou.mp4" type="video/mp4">
+      <source src="assets/videos/thankyou.mp4" type="video/mp4">
     </video>
     <div class="outro-logo">صِلة</div>
     <div class="outro-big-text">شكراً لمشاهدتك! 🎉</div>
@@ -928,7 +923,7 @@
       <p>تحويل فوري بين النص والكلام المنطوق لتسهيل التواصل</p>
     </div>
     <div class="feat-card">
-      <div class="feat-icon" style="background:#FAECE7; color:#993C1D;">🌈</div>
+      <div class="feat-icon" style="background:#FAECE7; color:#993C1D;">🌟</div>
       <h3>وضع التوحد</h3>
       <p>بيئة تعليمية مصممة خصيصاً لأطفال طيف التوحد بألوان وأنماط مريحة</p>
     </div>
@@ -1009,26 +1004,15 @@
   <div class="demo-card">
     <p class="section-label">الفيديو التعريفي</p>
     <h2 class="section-title" style="margin-bottom:8px;">شاهد كيف تعمل صِلة</h2>
-    <p class="section-desc" style="margin-bottom:0;">فيديو تجريبي يوضح جميع مميزات المنصة</p>
-    <div class="demo-video-placeholder">
-      <div class="demo-play">▶️</div>
-      <span>ضعي رابط الفيديو هنا</span>
-      <span style="font-size:11px;color:#9ca3af;font-weight:400;">(استبدلي هذا القسم بـ iframe أو فيديو YouTube)</span>
-    </div>
-  </div>
-</section>
+    <p class="section-desc" style="margin-bottom:0;">
+  يأخذكم هذا الفيديو في جولة داخل منصة صِلة مع ليلى، الشخصية الرئيسية للمنصة، للتعرف على أهم المميزات والخدمات. وفي ختامه، يعرض تجربة حقيقية لطفلة أثناء استخدام المنصة والتفاعل مع أنشطتها التعليمية.
+    </p>
 
-<!-- ══════════════════════════════════════════
-     SCREENSHOTS (placeholder)
-═══════════════════════════════════════════ -->
-<section class="section reveal">
-  <div class="demo-card">
-    <p class="section-label">لقطات الشاشة</p>
-    <h2 class="section-title" style="margin-bottom:8px;">من داخل التطبيق</h2>
-    <div class="demo-video-placeholder" style="height:200px;">
-      <span style="font-size:32px;">📸</span>
-      <span>أضيفي صور التطبيق هنا</span>
-    </div>
+    <video class="demo-video-placeholder" controls>
+      <source src="assets/videos/demo.mp4" type="video/mp4">
+      متصفحك لا يدعم تشغيل الفيديو.
+    </video>
+
   </div>
 </section>
 
